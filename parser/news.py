@@ -70,7 +70,7 @@ def get_data(html):
     for item in items:
         news.append({
             'title': item.find("a").getText('href'),
-            'desc': item.find("div").getText(),
+            'desc': + item.find("div", class_="b-content__inline_item-cover").find("img").get("src"),
             'link': "https://rezka.ag/" + item.get('href'),
             # 'time': item.find("time").getText()
         })
@@ -78,7 +78,9 @@ def get_data(html):
 
 
 
-'https://rezka.ag/'
+
+
+# 'https://rezka.ag/'
 
 
 def parser():
@@ -94,7 +96,7 @@ def parser():
     else:
         raise Exception('ERROR in parser')
 
-parser()
+# parser()
 
 
 
