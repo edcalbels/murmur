@@ -65,13 +65,14 @@ print(get_html(URL))
 
 def get_data(html):
     soup = BeautifulSoup(html, "html.parser")
-    items = soup.find_all('div', class_='b-content__inline_item-link')
+    items = soup.find_all('div', class_='b-content__inline_item')
     news = []
     for item in items:
         news.append({
-            'title': item.find("a").getText('href'),
-            'desc': + item.find("div", class_="b-content__inline_item-cover").find("img").get("src"),
-            'link': "https://rezka.ag/" + item.get('href'),
+            'title': item.find("div", class_ = 'b-content__inline_item-link').getText(),
+
+            'desc':  item.find("div", class_="b-content__inline_item-cover").find("img").get("src"),
+            'link': item.find("div").find('data-url')
             # 'time': item.find("time").getText()
         })
     return news
@@ -87,7 +88,7 @@ def parser():
     html = get_html(URL)
     if html.status_code == 200:
         news = []
-        for page in range(2):
+        for page in range(1,6):
             html = get_html(f"{URL}/page/{page}/")
             news.extend(get_data(html.text))
         # for i in get_data(html.text):
@@ -96,7 +97,7 @@ def parser():
     else:
         raise Exception('ERROR in parser')
 
-# parser()
+print(parser())
 
 
 
