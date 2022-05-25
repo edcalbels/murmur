@@ -3,6 +3,7 @@ from config import bot, dp
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from keyboards import client_kb
 
+from parser import news
 
 async def start(message: types.Message):
     await message.answer(f"Hi, my friend {message.from_user.full_name}",
@@ -31,9 +32,30 @@ async def quiz_1(message: types.Message):
         explanation_parse_mode=ParseMode.MARKDOWN_V2,
         reply_markup=markup
     )
+#
+# async def parser_news(message: types.Message):
+#     data = news.parser()
+#     for item in data:
+#         await bot.send_message(message.chat.id,
+#                                f"{item['time']}\n\n"
+#                                f"{item['title']}\n"
+#                                f"{item['desc']}\n\n"
+#                                f"{item['link']}")
+
+
+async def parser_news(message: types.Message):
+    data = news.parser()
+    for item in data:
+        await bot.send_message(message.chat.id,
+                               f"{item['title']}\n"
+                               f"{item['desc']}\n\n"
+                               f"{item['link']}")
+
+
 
 
 def register_handler_client(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
     dp.register_message_handler(pic, commands=['mem'])
     dp.register_message_handler(quiz_1, commands=['quiz'])
+    dp.register_message_handler(parser_news, commands=['news'])
